@@ -51,12 +51,12 @@ def activateEmail(request, user, to_email):
         messages.success(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
 
 def home(request):
-    prods = MenClothing.objects.all()
+    prods = MenClothing.objects.filter(is_featured=True)
     bannerimage = BannerImage.objects.all()
     categories = Category.objects.all()
     category_product_mapping = {}
     for category in categories:
-        prods = MenClothing.objects.all()
+        prods = MenClothing.objects.filter(is_featured=True)
         category_product_mapping[category] = prods
     return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'category_product_mapping':category_product_mapping})
 

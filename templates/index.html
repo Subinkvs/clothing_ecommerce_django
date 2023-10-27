@@ -90,11 +90,11 @@
                         </button>
                         
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'allcategories' %}">Products</a>
-                            <!-- <a class="dropdown-item" href="">Shirt</a>
-                            <a class="dropdown-item" href="#">Jeans</a>
-                            <a class="dropdown-item" href="#">Jacket</a> -->
-                        </div>
+                          <a class="dropdown-item" href="{% url 'tshirt_category' %}">Tshirt</a>
+                          <a class="dropdown-item" href="{% url 'shirt_category' %}">Shirt</a>
+                          <a class="dropdown-item" href="{% url 'jeans_category' %}">Jeans</a>
+                          <a class="dropdown-item" href="{% url 'jacket_category' %}">Jacket</a>
+                      </div>
                     </div> 
                     <!-- category-wrap -->
                 </div> <!-- col.// -->
@@ -161,7 +161,7 @@
 <section class="section-name padding-y-sm">
     <div class="container">
         <header class="section-heading">
-            <a href="{% url 'allcategories' %}" class="btn btn-outline-primary float-right">See all</a>
+            <a href="#" class="btn btn-outline-primary float-right">See all</a>
             <h3 class="section-title">Elevate Your Style</h3>
         </header><!-- sect-heading -->
         <div class="row">
@@ -188,11 +188,11 @@
 <!-- ========================= FOOTER ========================= -->
 <!-- Remove the container if you want to extend the Footer to full width. -->
 <!-- Remove the container if you want to extend the Footer to full width. -->
-<div class="container my-5">
+<!-- <div class="container my-5"> -->
     <!-- Footer -->
     <footer class="text-center text-white" style="background-color: #3f51b5">
       <!-- Grid container -->
-      <div class="container">
+      <div class="container-fluid">
         <!-- Section: Links -->
         <section class="mt-5">
           <!-- Grid row-->
@@ -244,7 +244,7 @@
         <hr class="my-5" />
   
         <!-- Section: Text -->
-        <section class="mb-5">
+        <section class="mb-5 ">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
               <p>
@@ -295,7 +295,7 @@ At iCart, we've reimagined the way you shop, providing you with a seamless, user
       <!-- Copyright -->
     </footer>
     <!-- Footer -->
-  </div>
+  <!-- </div> -->
   <!-- End of .container -->
 <!-- ========================= FOOTER END // ========================= -->
 

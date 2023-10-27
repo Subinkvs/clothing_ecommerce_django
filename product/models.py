@@ -17,6 +17,7 @@ class MenClothing(models.Model):
     size = models.CharField(max_length=20)
     color = models.CharField(max_length=50)
     image = models.ImageField(upload_to='clothing_images')
+    is_featured = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name
