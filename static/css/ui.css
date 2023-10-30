@@ -422,7 +422,7 @@ p:last-child {
 }
 
 .header-main {
-  position: relative;
+  position: fixed;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }

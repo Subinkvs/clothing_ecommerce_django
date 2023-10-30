@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from .token import token_generator
+from product.models import BannerImage
  
 # Create your views here.
 def activate(request, uidb64, token):
@@ -93,7 +94,8 @@ def loginpage(request):
                 login(request, user)
                 messages.success(request, "Logged in Successfully")
                 prods = MenClothing.objects.all()
-                return render(request, 'index.html',{'prods':prods})
+                bannerimage = BannerImage.objects.all()
+                return render(request, 'index.html',{'prods':prods, 'bannerimage':bannerimage})
                 
                
             else:

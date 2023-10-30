@@ -8,11 +8,7 @@ def home(request):
     prods = MenClothing.objects.filter(is_featured=True)
     bannerimage = BannerImage.objects.all()
     categories = Category.objects.all()
-    category_product_mapping = {}
-    for category in categories:
-        prods = MenClothing.objects.all()
-        category_product_mapping[category] = prods
-    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'category_product_mapping':category_product_mapping})
+    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'categories':categories})
 
 def productdetail(request, product_id):
     product = get_object_or_404(MenClothing, pk=product_id)
@@ -33,3 +29,17 @@ def jeans_category(request):
 def jacket_category(request):
     jackets = MenClothing.objects.filter(category__name = 'Jacket',is_featured=True)
     return render(request, 'category.html', {'category': 'Jacket', 'products':jackets})
+
+
+
+# def categories(request):
+#     categories = Category.objects.all()
+#     category_items = {}
+#     for cat in categories:
+#         item = MenClothing.objects.filter(category__name = cat.name, is_featured = True)
+#         category_items[cat.name] = item
+        
+#     return render(request, 'category.html',{'categories': categories, 'category_items': category_items})
+
+def cart(request):
+    return render(request, 'cart.html')

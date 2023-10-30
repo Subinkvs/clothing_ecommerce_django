@@ -9,5 +9,7 @@ urlpatterns = [
     path('category/tshirt/', views.tshrit_category, name='tshirt_category'),
     path('category/shirt/', views.shrit_category, name='shirt_category'),
     path('category/jeans/', views.jeans_category, name='jeans_category'),
-    path('category/jacket/', views.jacket_category, name='jacket_category')
+    path('category/jacket/', views.jacket_category, name='jacket_category'),
+    path('cart', views.cart, name='cart' )
+
 ]

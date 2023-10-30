@@ -31,6 +31,18 @@
      <!-- image-zooming jQuery CDN -->
      <script src="https://cdn.jsdelivr.net/npm/@zeitiger/elevatezoom@2.5.4/jquery.elevateZoom-3.0.8.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.js"></script>
+    <!-- <style>
+        .section-header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background-color: #fff; /* Optional: Set background color */
+        }
+        .section-content{
+            margin-top: -10px; /* Adjust margin-top to create space below fixed header */
+        }
+       
+      </style> -->
 </head>
 <body>
     <header class="section-header">
@@ -118,8 +130,10 @@
             </div>
         </section>
     </header>
+<div class="container">
 
-    <section class="section-content padding-y bg">
+</div>
+    <section class="section-content padding-y bg ">
         <div class="container">
             <!-- COMPONENT 1 -->
             <div class="card">
@@ -181,7 +195,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
+                            <a href="{% url 'cart' %}" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
                             <a href="./product-detail.html" class="btn  btn btn-danger ml-4"> <span class="text">Wishlist</span> <i class="fas fa-shopping-cart "></i>  </a>
                         </article>
                     </main>
