@@ -40,31 +40,30 @@
         });
         // jquery end
     </script>
+    <style>
+      .section-header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background-color: white !important;
+      }
+      .banner{
+        padding-top: 75px;
+      }
+    </style>
     
     <!-- Alertify CSS -->
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 <!-- Default theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-<style>
-  .section-header {
-      position: fixed;
-      width: 100%;
-      z-index: 1000;
-      background-color: #fff; /* Optional: Set background color */
-      
-  }
-  .carousel {
-    padding-top: 40px; /* Adjust padding-top to create space below fixed header */
-}
-</style>
 </head>
 <body>
-  
-    <header class="section-header " >
+  <header class="section-header " >
       <section class="header-main border-bottom  ">
           <div class="container ">
-              <div class="row align-items-center ">
+              <div class="row align-items-center">
                   <div class="col-lg-2 col-md-3 col-6 ">
                       <a href="./" class="brand-wrap ">
                           <img class="logo" src="{% static 'images/logo.png' %}">
@@ -138,7 +137,7 @@
         {% endfor %}
      </div>
   </div> -->
-  <div class="carousel">
+  <div class="banner">
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
