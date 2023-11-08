@@ -28,16 +28,29 @@
     <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
    
     
-     <!-- image-zooming jQuery CDN -->
-     <script src="https://cdn.jsdelivr.net/npm/@zeitiger/elevatezoom@2.5.4/jquery.elevateZoom-3.0.8.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.js"></script>
     
+    <!-- Alertify CSS -->
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+     <!-- image-zooming jQuery CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@zeitiger/elevatezoom@2.5.4/jquery.elevateZoom-3.0.8.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.js"></script>
+    <style>
+        .header-main {
+          position: sticky;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          z-index: 1000;
+        }
+      </style>    
 </head>
 <body>
     <header class="section-header">
        <section class="header-main border-bottom">
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center product_data">
                     <div class="col-lg-2 col-md-3 col-6">
                         <a href="{% url 'index' %}" class="brand-wrap">
                             <img class="logo" src="{% static 'images/logo.png' %}">
@@ -77,7 +90,7 @@
                                     <a href="{% url 'signuppage' %}"> Register</a>
                                 </div>
                             </div>
-                            <a href="#" class="widget-header pl-3 ml-3">
+                            <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
                                 <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
                                 <span class="badge badge-pill badge-danger notify">0</span>
                             </a>
@@ -105,7 +118,7 @@
                         </article>
                     </aside>
                     <main class="col-md-6 border-left">
-                        <article class="content-body">
+                        <article class="content-body product_data">
                             <h2 class="title">{{product.title}}</h2>
                             <div class="mb-3">
                                 <var class="price h4">Rs {{product.price}}</var>
@@ -152,15 +165,46 @@
                                 </div>
                             </div>
                             <hr>
-                            <a href="{% url 'cart' %}" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
-                            <a href="./product-detail.html" class="btn  btn btn-danger ml-4"> <span class="text">Wishlist</span> <i class="fas fa-shopping-cart "></i>  </a>
+                            <div class="product_data">
+                                {% if product.quantity > 0 %}
+                                    <label class="badge bg-success">In stock</label>
+                                {% else %}
+                                    <label class="badge bg-danger">Out of stock</label>
+                                {% endif %}
+                                <!-- Other product details and form elements -->
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ product.id }}" class="prod_id">
+                                <label for="Quantity">Quantity</label>
+                                <div class="row">
+                                    <div class="input-group input-spinner">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-light button-decreament" type="button" id="button-plus">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control qty-input" value="1" readonly style="background-color: white;">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-light button-increament" type="button" id="button-minus">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div> <!-- input-group.// -->
+                                </div> <!-- col.// -->
+                            
+                            <hr>
+                            {% if product.quantity > 0 %}
+                                <button class="btn btn-primary addToCartBtn">Add to cart<i class="fas fa-shopping-cart"></i></button>
+                                <a href="./product-detail.html" class="btn  btn btn-danger ml-4"> <span class="text">Wishlist</span> <i class="fas fa-shopping-cart "></i>  </a>
+                            {% endif %}
+                           
                         </article>
                     </main>
                 </div>
             </div>
+        </div>
             <!-- COMPONENT 1 END -->
             <br>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-9">
                     <header class="section-heading">
                         <h3>Customer Reviews</h3>
@@ -182,7 +226,7 @@
                         </div>
                     </article>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <script>
@@ -196,6 +240,17 @@
             });
         });
     </script>
+<script src="{% static '/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static '/js/custom.js' %}"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+    
+    
+    ('{% for msg in messages %}')
+    alertify.set('notifier', 'position', 'bottom-right');
+    alertify.success('<span style="color: green;">{{ msg }}</span>');
+    ('{% endfor %}')
+</script>
   
 </body>
 </html>

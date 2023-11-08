@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import  MenClothing, BannerImage,Category
+from .models import  MenClothing, BannerImage,Category,Cart
 from django.shortcuts import get_object_or_404
-
+from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
@@ -41,5 +41,30 @@ def jacket_category(request):
         
 #     return render(request, 'category.html',{'categories': categories, 'category_items': category_items})
 
+
+def addtocart(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            prod_id = int(request.POST.get('product_id'))
+            product_check = MenClothing.objects.get(id=prod_id)
+            if(product_check):
+                if(Cart.objects.filter(user=request.user.id, product_id=prod_id)):
+                    return JsonResponse({'status':'Product Already in Cart'})
+                else:
+                    prod_qty = int(request.POST.get('product_qty'))
+                    
+                    if product_check.quantity >= prod_qty:
+                        Cart.objects.create(user=request.user, product_id=prod_id, product_qty=prod_qty)
+                        return JsonResponse({'status':'Product added successfully'})
+                    else:
+                        return JsonResponse({'status':"Only" + str(product_check.quantity) + "quantity avaliable"})
+            else:
+                return JsonResponse({'status':'No such product found'})
+        else:
+            return JsonResponse({'status': 'Login to Continue'})
+    return redirect('/')
+
 def cart(request):
-    return render(request, 'cart.html')
+    cartitem = Cart.objects.filter(user=request.user.id)
+    context = {'cartitem':cartitem}
+    return render(request, 'cart.html', context)

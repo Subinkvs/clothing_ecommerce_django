@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import User
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -11,6 +11,7 @@ class MenClothing(models.Model):
     name = models.CharField(max_length=100)
     title = models.TextField(max_length=100)
     description = models.TextField()
+    quantity = models.IntegerField(null=False,blank=False)
     brand = models.CharField(max_length=20)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -24,3 +25,9 @@ class MenClothing(models.Model):
     
 class BannerImage(models.Model):
     image = models.ImageField( upload_to='banner-images')
+    
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(MenClothing, on_delete=models.CASCADE)
+    product_qty = models.IntegerField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)

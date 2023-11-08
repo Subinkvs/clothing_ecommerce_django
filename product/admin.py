@@ -1,5 +1,5 @@
 from django.contrib import admin
-from product.models import MenClothing,BannerImage,Category
+from product.models import MenClothing,BannerImage,Category,Cart
 
 # Register your models here.
 class MenClothingAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class MenClothingAdmin(admin.ModelAdmin):
 admin.site.register(MenClothing, MenClothingAdmin)
 admin.site.register(BannerImage)
 admin.site.register(Category)
+admin.site.register(Cart)
