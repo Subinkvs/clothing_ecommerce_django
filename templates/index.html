@@ -101,7 +101,7 @@
                       <div class="d-flex justify-content-end mb-3 mb-lg-0">
                          <div class="widget-header px-4">
                               {% if request.user.is_authenticated %}
-                              <small class="title text-muted ">Welcome {{request.user}}</small>
+                              <small class="title text-muted ">Welcome{{request.user}}</small>
                               <div>
                                   <a href="{% url 'logoutpage' %}">Logout</a> <span class="dark-transp "></span>
                               </div>
@@ -117,6 +117,9 @@
                             <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
                             <span class="badge badge-pill badge-danger notify">0</span>
                         </a>
+                        <a href="{% url 'wishlist' %}" class="widget-header pl-3 ml-3">
+                          <div class="icon icon-sm rounded-circle border"><i class="fa fa-heart"></i></div>
+                      </a>
                       </div> <!-- widgets-wrap.// -->
                   </div> <!-- col.// -->
               </div> <!-- row.// -->

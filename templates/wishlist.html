@@ -135,7 +135,7 @@ $(document).ready(function() {
 							<a href="./register.html"> Register</a>
 						</div>
 					</div>
-					<a href="./cart.html" class="widget-header pl-3 ml-3">
+					<a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
 						<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
 						<span class="badge badge-pill badge-danger notify">0</span>
 					</a>
@@ -155,21 +155,21 @@ $(document).ready(function() {
 
 <!-- ============================ COMPONENT 1 ================================= -->
 
-<div class="row">
+<div class="row ">
 	<aside class="col-lg-9">
-<div class="card cartdata">
+<div class="card  cartdata">
 <table class="table table-borderless table-shopping-cart">
 <thead class="text-muted">
 <tr class="small text-uppercase">
   <th scope="col">Product</th>
-  <th scope="col" width="120">Quantity</th>
+  <th scope="col" width="120"></th>
   <th scope="col" width="120">Price</th>
   <th scope="col" class="text-right" width="200"> </th>
 </tr>
 </thead>
 <tbody>
-	{% if cartitem %}
-	{% for item in cartitem %}
+	{% if wishlist %}
+	{% for item in wishlist %}
 <tr class="product_data">
 	
 	<td>
@@ -185,25 +185,9 @@ $(document).ready(function() {
 		<!-- col.// -->
 				{% csrf_token %}
 				<input type="hidden" value="{{ item.product.id }}" class="prod_id">
-				{% if item.product.quantity >= item.product_qty %}
-					<div class="col "> 
-						<div class="input-group input-spinner">
-							<div class="input-group-prepend">
-								<button class="btn btn-light ChangeQuantity button-decreament" type="button" id="button-plus">
-									<i class="fa fa-minus"></i>
-								</button>
-							</div>
-							<input type="text" class="form-control qty-input" value="{{item.product_qty}}" readonly style="background-color:white";>
-							<div class="input-group-append">
-								<button class="btn btn-light ChangeQuantity button-increament" type="button" id="button-minus">
-									<i class="fa fa-plus"></i>
-								</button>
-							</div>
-						</div> 
-					</div> 
-					{% else %}
-					<label class="badge bg-danger">Out of stock</label>
-					{% endif %}
+			    <a href="{% url 'productdetail' item.product.id %}">
+                    <button type="button" class="btn btn-primary mr-5">View</button>
+                </a>
 	</td>
 	<td> 
 		<div class="price-wrap"> 
@@ -212,12 +196,12 @@ $(document).ready(function() {
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
-		<button type="button" class="btn btn-danger delete-cart-item">Remove</button>
+		<button type="button" class="btn btn-danger delete-wishlist-item">Remove</button>
     </td>
 </tr>
 {% endfor %}
 {% else %}
-<h4>Your cart is empty</h4>
+<h4>Your wishlist is empty</h4>
 {% endif %}
  <!-- <tr>
 	<td>
@@ -291,8 +275,8 @@ $(document).ready(function() {
 </table>
 </div> <!-- card.// -->
 
-	</aside> <!-- col.// -->
-	<aside class="col-lg-3">
+	<!-- </aside> col.// -->
+	<!-- <aside class="col-lg-3">
 
 		<div class="card">
 		<div class="card-body">
@@ -315,9 +299,9 @@ $(document).ready(function() {
 			<a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
 			<a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
 		</div> <!-- card-body.// -->
-		</div> <!-- card.// -->
+		<!-- </div> card.// -->
 
-</aside> <!-- col.// -->
+<!-- </aside> col.// --> 
 
 
 </div> <!-- row.// -->

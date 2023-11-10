@@ -83,16 +83,26 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
                         <div class="d-flex justify-content-end mb-3 mb-lg-0">
-                            <div class="widget-header">
-                                <small class="title text-muted">Welcome guest!</small>
+                            <div class="widget-header px-4">
+                                {% if request.user.is_authenticated %}
+                                <small class="title text-muted ">Welcome{{request.user}}</small>
                                 <div>
-                                    <a href="{% url 'loginpage' %}">Sign in</a> <span class="dark-transp"> | </span>
-                                    <a href="{% url 'signuppage' %}"> Register</a>
+                                    <a href="{% url 'logoutpage' %}">Logout</a> <span class="dark-transp "></span>
                                 </div>
+                                {% else %}
+                                <!-- <small class="title text-muted ">Welcome</small> -->
+                                <div class = "pt-3 ">
+                                    <a href="./signin.html"> Login</a> <span class="dark-transp"></span>
+                                    <!-- <a href="./register.html"> Register</a> -->
+                                </div>
+                                {% endif %}
                             </div>
                             <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
                                 <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
                                 <span class="badge badge-pill badge-danger notify">0</span>
+                            </a>
+                            <a href="{% url 'wishlist' %}" class="widget-header pl-3 ml-3">
+                                <div class="icon icon-sm rounded-circle border"><i class="fa fa-heart"></i></div>
                             </a>
                         </div>
                     </div>
@@ -128,12 +138,12 @@
                             <hr>
                             <div class="row">
                                 <div class="item-option-select">
-                                    <h6>Choose Color</h6>
+                                    <h6>Color</h6>
                                     <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-light">
-                                            <input type="radio" name="radio_color"> Blue
+                                            <input type="radio" name="radio_color"> {{product.color}}
                                         </label>
-                                        <label class="btn btn-light">
+                                        <!-- <label class="btn btn-light">
                                             <input type="radio" name="radio_color"> White
                                         </label>
                                         <label class="btn btn-light active">
@@ -141,18 +151,18 @@
                                         </label>
                                         <label class="btn btn-light">
                                             <input type="radio" name="radio_color"> Black
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="item-option-select">
-                                    <h6>Select Size</h6>
+                                    <h6>Size</h6>
                                     <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-light">
-                                            <input type="radio" name="radio_color"> S
+                                            <input type="radio" name="radio_color"> {{product.size}}
                                         </label>
-                                        <label class="btn btn-light active">
+                                        <!-- <label class="btn btn-light active">
                                             <input type="radio" name="radio_color" checked> M
                                         </label>
                                         <label class="btn btn-light">
@@ -160,7 +170,7 @@
                                         </label>
                                         <label class="btn btn-light">
                                             <input type="radio" name="radio_color"> XL
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +204,7 @@
                             <hr>
                             {% if product.quantity > 0 %}
                                 <button class="btn btn-primary addToCartBtn">Add to cart<i class="fas fa-shopping-cart"></i></button>
-                                <a href="./product-detail.html" class="btn  btn btn-danger ml-4"> <span class="text">Wishlist</span> <i class="fas fa-shopping-cart "></i>  </a>
+                                <button class="btn  btn btn-danger ml-4 addToWishlistBtn">Wishlist<i class="fas fa-shopping-cart "></i></button>
                             {% endif %}
                            
                         </article>
