@@ -8,11 +8,15 @@ def home(request):
     prods = MenClothing.objects.filter(is_featured=True)
     bannerimage = BannerImage.objects.all()
     categories = Category.objects.all()
-    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'categories':categories})
+    cartitem = Cart.objects.filter(user=request.user.id)
+    total_quantity = sum(item.product_qty for item in cartitem)
+    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'categories':categories, 'cartitem':cartitem, 'total_quantity':total_quantity})
 
 def productdetail(request, product_id):
     product = get_object_or_404(MenClothing, pk=product_id)
-    return render(request, 'product-detail.html',{'product':product})
+    cartitem = Cart.objects.filter(user=request.user)
+    total_quantity = sum(item.product_qty for item in cartitem)
+    return render(request, 'product-detail.html',{'product':product, 'cartitem':cartitem, 'total_quantity':total_quantity})
 
 def tshrit_category(request):
     tshirts = MenClothing.objects.filter(category__name = 'T-shirt',is_featured=True)
@@ -67,7 +71,8 @@ def addtocart(request):
 @login_required(login_url='loginpage')
 def cart(request):
     cartitem = Cart.objects.filter(user=request.user.id)
-    context = {'cartitem':cartitem}
+    total_quantity = sum(item.product_qty for item in cartitem)
+    context = {'cartitem':cartitem, 'total_quantity':total_quantity}
     return render(request, 'cart.html', context)
 
 def updatecart(request):
@@ -130,4 +135,22 @@ def deletewishlistitem(request):
         
     return redirect('index')
     
-                
+
+def checkoutpage(request):
+    rawcart = Cart.objects.filter(user=request.user)
+    total_quantity = sum(item.product_qty for item in rawcart)
+    for item in rawcart:
+        if item.product_qty > item.product.quantity:
+            Cart.objects.delete(id=item.id)
+            
+    cartitems = Cart.objects.filter(user=request.user)
+    total_price = 0
+    for item in cartitems:
+        total_price = total_price + item.product.price * item.product_qty
+    
+    context = {'cartitems':cartitems, 'total_price':total_price, 'total_quantity':total_quantity}
+    return render(request, 'place-order.html', context)        
+
+
+def ordercomplete(request):
+    return render(request, 'order_complete.html')

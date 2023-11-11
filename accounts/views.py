@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from accounts.forms import  CustomUserForm
 from django.contrib import messages
 from django.contrib.auth import  authenticate, login, logout, get_user_model
-from product.models import MenClothing,BannerImage,Category
+from product.models import MenClothing,BannerImage,Category,Cart
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -55,11 +55,13 @@ def home(request):
     prods = MenClothing.objects.filter(is_featured=True)
     bannerimage = BannerImage.objects.all()
     categories = Category.objects.all()
+    cartitem = Cart.objects.filter(user=request.user.id)
+    total_quantity = sum(item.product_qty for item in cartitem)
     category_product_mapping = {}
     for category in categories:
         prods = MenClothing.objects.filter(is_featured=True)
         category_product_mapping[category] = prods
-    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'category_product_mapping':category_product_mapping})
+    return render(request, 'index.html', {'prods':prods ,'bannerimage':bannerimage, 'category_product_mapping':category_product_mapping,'cartitem':cartitem, 'total_quantity':total_quantity})
 
     
 @user_not_authenticated
