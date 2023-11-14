@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import  MenClothing, BannerImage,Category,Cart,Wishlist
+from .models import *
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from accounts.models import User
+import random
 # Create your views here. 
 def home(request):
     prods = MenClothing.objects.filter(is_featured=True)
@@ -147,10 +150,77 @@ def checkoutpage(request):
     total_price = 0
     for item in cartitems:
         total_price = total_price + item.product.price * item.product_qty
-    
-    context = {'cartitems':cartitems, 'total_price':total_price, 'total_quantity':total_quantity}
+        
+    userprofile = Profile.objects.filter(user=request.user).first()
+   
+    context = {'cartitems':cartitems, 'total_price':total_price, 'total_quantity':total_quantity, 'userprofile':userprofile}
     return render(request, 'place-order.html', context)        
 
 
-def ordercomplete(request):
-    return render(request, 'order_complete.html')
+@login_required(login_url='loginpage')
+def placeorder(request):
+    if request.method == 'POST':
+        
+        currentuser = User.objects.filter(id=request.user.id).first()
+        
+        if not currentuser.first_name:
+            currentuser.first_name = request.POST.get('firstname')
+            currentuser.last_name = request.POST.get('lastname')
+            currentuser.save()
+            
+        if not Profile.objects.filter(user=request.user):
+            userprofile = Profile()
+            userprofile.user = request.user
+            userprofile.address = request.POST.get('address')
+            userprofile.city = request.POST.get('city')
+            userprofile.state = request.POST.get('state')
+            userprofile.country = request.POST.get('country')
+            userprofile.pincode = request.POST.get('pincode')
+            userprofile.save()
+            
+        neworder = Order()
+        neworder.user = request.user
+        neworder.firstname = request.POST.get('firstname')
+        neworder.lastname = request.POST.get('lastname')
+        neworder.email = request.POST.get('email')
+        neworder.phone = request.POST.get('phone')
+        neworder.address = request.POST.get('address')
+        neworder.city = request.POST.get('city')
+        neworder.state = request.POST.get('state')
+        neworder.country = request.POST.get('country')
+        neworder.pincode = request.POST.get('pincode')
+        neworder.payment_mode = request.POST.get('payment_mode')
+        
+        cart = Cart.objects.filter(user=request.user)
+        cart_total_price = 0
+        for item in cart:
+            cart_total_price = cart_total_price + item.product.price * item.product_qty
+            
+        neworder.total_price = cart_total_price
+        trackno = 'Hello'+str(random.randint(1111111,9999999))
+        while Order.objects.filter(tracking_no=trackno) is None:
+            trackno = 'Hello'+str(random.randint(1111111,9999999))
+            
+        neworder.tracking_no = trackno
+        neworder.save()
+        
+        neworderitems = Cart.objects.filter(user=request.user)
+        for item in neworderitems:
+            OrderItem.objects.create(
+                order=neworder,
+                product=item.product,
+                price=item.product.price,
+                quantity=item.product_qty
+            )
+            
+            orderproduct = MenClothing.objects.filter(id=item.product_id).first()
+            orderproduct.quantity = orderproduct.quantity - item.product_qty
+            orderproduct.save()
+        
+        Cart.objects.filter(user=request.user)
+        messages.success(request, "Your Order has be placed successfully")
+    return redirect('index')
+    
+def store(request):
+    return render(request, 'store.html')
+  

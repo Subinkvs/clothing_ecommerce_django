@@ -153,12 +153,16 @@ $(document).ready(function() {
 
 
 <!-- ============================ COMPONENT 2 ================================= -->
+<form action="{% url 'placeorder' %}" method="POST">
+	{% csrf_token %}
 <div class="row">
 		<main class="col-md-8">
 
 <article class="card mb-4">
 <div class="card-body">
 	<h4 class="card-title mb-4">Order Summary</h4>
+	<hr>
+	<div>
 	<div class="row">
 		{% for item in cartitems %}
 		<div class="col-md-6">
@@ -169,34 +173,7 @@ $(document).ready(function() {
 					<span class="text-muted">Rs {{item.product.price}}</span>
 				</figcaption>
 			</figure>
-		</div> <!-- col.// -->
-		<!-- <div class="col-md-6">
-			<figure class="itemside  mb-4">
-				<div class="aside"><img src="{% static './images/items/2.jpg' %}" class="border img-sm"></div>
-				<figcaption class="info">
-					<p>Apple iPad (2019) 32Gb Wi-Fi gold </p>
-					<span class="text-muted">2x = $560 </span>
-				</figcaption>
-			</figure>
-		</div> col.// -->
-		<!-- <div class="col-md-6">
-			<figure class="itemside mb-4">
-				<div class="aside"><img src="{% static './images/items/3.jpg' %}" class="border img-sm"></div>
-				<figcaption class="info">
-					<p>Apple iPad (2019) 32Gb Wi-Fi gold </p>
-					<span class="text-muted">2x = $560 </span>
-				</figcaption>
-			</figure>
-		</div> col.// -->
-		<!-- <div class="col-md-6">
-			<figure class="itemside  mb-4">
-				<div class="aside"><img src="{% static './images/items/4.jpg' %}" class="border img-sm"></div>
-				<figcaption class="info">
-					<p>Apple iPad (2019) 32Gb Wi-Fi gold </p>
-					<span class="text-muted">2x = $560 </span>
-				</figcaption>
-			</figure>
-		</div> col.// -->
+		</div>
 		{% endfor %}
 	</div> <!-- row.// -->
 </div> <!-- card-body.// -->
@@ -205,77 +182,47 @@ $(document).ready(function() {
 
 <article class="card mb-4">
 <div class="card-body">
-	<h4 class="card-title mb-4">Contact info</h4>
-	<form action="">
+	<h4 class="card-title mb-4">Basic Details</h4>
+	<hr>
+
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label>Frst name</label>
-				<input type="text" placeholder="Type here" class="form-control">
+				<label>First name</label>
+				<input type="text" value="{{request.user.first_name}}"class="form-control" required name="firstname" placeholder="Enter first name">
 			</div>
 			<div class="form-group col-sm-6">
 				<label>Last name</label>
-				<input type="text" placeholder="Type here" class="form-control">
-			</div>
-			<div class="form-group col-sm-6">
-				<label>Phone</label>
-				<input type="text" value="+998" class="form-control">
+				<input type="text" value="{{request.user.last_name}}" class="form-control" required name="lastname" placeholder="Enter Last name">
 			</div>
 			<div class="form-group col-sm-6">
 				<label>Email</label>
-				<input type="email" placeholder="example@gmail.com" class="form-control">
+				<input type="email" value="{{request.user.email}}" class="form-control" required  name="email" placeholder="example@gmail.com">
+			</div>
+			<div class="form-group col-sm-6">
+				<label>Phone</label>
+				<input type="text" value="{{request.user.phonenumber}}"  class="form-control" required name="phone" placeholder="Enter phone number">
+			</div>
+			<div class="form-group col-12">
+				<label>Address</label>
+				<textarea type="text" class="form-control" required  name="address" placeholder="Enter address"  style="height: 100px;">{{userprofile.address}}</textarea>
+			</div>
+			<div class="form-group col-sm-6">
+				<label>City</label>
+				<input type="text" value="{{userprofile.city}}" class="form-control" required name="city" placeholder="Enter City name">
+			</div>
+			<div class="form-group col-sm-6">
+				<label>State</label>
+				<input type="text" value="{{userprofile.state}}" class="form-control" required name="state" placeholder="Enter State name">
+			</div>
+			<div class="form-group col-sm-6">
+				<label>Country</label>
+				<input type="text" value="{{userprofile.country}}"  class="form-control" required name="country" placeholder="Enter Country name">
+			</div>
+			<div class="form-group col-sm-6">
+				<label>Pin Code</label>
+				<input type="text" value="{{userprofile.pincode}}" class="form-control" required name="pincode" placeholder="Enter Pin Code">
 			</div>
 		</div> <!-- row.// -->	
-	</form>
-</div> <!-- card-body.// -->
-</article> <!-- card.// -->
-
-
-<article class="card mb-4">
-<div class="card-body">
-	<h4 class="card-title mb-4">Delivery info</h4>
-	<form action="">
-			
-
-		<div class="row">
-				<div class="form-group col-sm-6">
-					<label>Country*</label>
-					<select name="" class="form-control">
-						<option value="">India</option>
-						<option value="">United States</option>
-						<option value="">France</option>
-						<option value="">Italy</option>
-					</select>
-				</div>
-				<div class="form-group col-sm-6">
-					<label>State*</label>
-					<input type="text" placeholder="Type here" class="form-control">
-				</div>
-				<div class="form-group col-sm-8">
-					<label>Street*</label>
-					<input type="text" placeholder="Type here" class="form-control">
-				</div>
-				<div class="form-group col-sm-4">
-					<label>Building</label>
-					<input type="text" placeholder="" class="form-control">
-				</div>
-				<div class="form-group col-sm-4">
-					<label>House</label>
-					<input type="text" placeholder="Type here" class="form-control">
-				</div>
-				<div class="form-group col-sm-4">
-					<label>Postal code</label>
-					<input type="text" placeholder="" class="form-control">
-				</div>
-				<div class="form-group col-sm-4">
-					<label>Zip</label>
-					<input type="text" placeholder="" class="form-control">
-				</div>
-		</div> <!-- row.// -->	
-	</form>
-</div> <!-- card-body.// -->
-</article> <!-- card.// -->
-
-
 <article class="accordion" id="accordion_pay">
 	<div class="card">
 		<header class="card-header">
@@ -325,14 +272,7 @@ $(document).ready(function() {
 		<aside class="col-md-4">
 			<div class="card">
 		<div class="card-body">
-			<!-- <dl class="dlist-align">
-			  <dt>Total price:</dt>
-			  <dd class="text-right">$69.97</dd>
-			</dl>
-			<dl class="dlist-align">
-			  <dt>Tax:</dt>
-			  <dd class="text-right"> $10.00</dd>
-			</dl> -->
+
 			<dl class="dlist-align">
 			  <dt>Total price:</dt>
 			  <dd class="text-right text-dark b"><strong>Rs {{total_price}}</strong></dd>
@@ -341,13 +281,15 @@ $(document).ready(function() {
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png' %}" height="26">
 			</p>
-			<a href="{% url 'ordercomplete' %}" class="btn btn-primary btn-block"> COD | Place Order </a>
+			<input type="hidden" value="COD" name="payment_mode">
+			<button class="btn btn-primary btn-block" type="submit"> COD | Place Order </button>
 			
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
 		</aside> <!-- col.// -->
 	</div> <!-- row.// -->
-
+  </div>
+</form>
 <!-- ============================ COMPONENT 2 END//  ================================= -->
 
 
